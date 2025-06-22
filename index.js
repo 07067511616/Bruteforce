@@ -8,7 +8,7 @@ const serviceAccount = JSON.parse(process.env.FIREBASE_KEY_JSON);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://<YOUR-FIREBASE-ID>.firebaseio.com',
+  databaseURL: 'https://a-b-c-s-default-rtdb.firebaseio.com',
 });
 
 const db = admin.database();
