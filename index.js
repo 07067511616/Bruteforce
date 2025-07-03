@@ -25,8 +25,8 @@ const API_URL = process.env.API_URL;
 const TOKEN = process.env.API_TOKEN;
 
 // Fixed parts of the account number
-const PREFIX = '069';
-const SUFFIX = '9471';
+const PREFIX = '140';
+const SUFFIX = '7676';
 
 // Brute-force only 3 middle digits: 001 → 999
 let start = 1;
